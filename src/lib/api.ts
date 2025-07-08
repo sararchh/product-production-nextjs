@@ -23,8 +23,11 @@ api.interceptors.response.use(
       Cookies.remove('auth_token');
       Cookies.remove('user_data');
       
-      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
+      if (typeof window !== 'undefined') {
+        const unauthorizedEvent = new CustomEvent('unauthorized-error', {
+          detail: { name: 'UnauthorizedError' }
+        });
+        window.dispatchEvent(unauthorizedEvent);
       }
     }
     return Promise.reject(error);

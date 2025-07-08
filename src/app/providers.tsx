@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from '@/modules/auth';
+import { ApiErrorHandler } from '@/components/ApiErrorHandler';
 import 'react-toastify/dist/ReactToastify.css';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -22,6 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <ApiErrorHandler />
         {children}
         <ToastContainer
           position="top-right"

@@ -1,15 +1,17 @@
 "use client";
 
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/modules/auth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { user, logout } = useAuthContext();
 
   const handleGoToProducts = useCallback(() => {
-    window.location.href = "/products";
-  }, []);
+    router.push("/products");
+  }, [router]);
 
   return (
     <ProtectedRoute>
@@ -40,7 +42,9 @@ export default function DashboardPage() {
           </div>
         </nav>
 
-        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">TODO</main>
+        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+         TODO
+        </main>
       </div>
     </ProtectedRoute>
   );
