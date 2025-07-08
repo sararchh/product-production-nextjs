@@ -16,6 +16,7 @@ import {
 } from "@/modules/products";
 import { useAuthContext } from "@/modules/auth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { ConfirmDialog } from "@/shared/components";
 
 const productSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -457,67 +458,29 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {showConfirmDialog && (
-        <div className="fixed inset-0 bg-[rgba(74,85,101,0.5)] flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-mx-auto">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
-              {editingProduct ? 'Confirmar Atualização' : 'Confirmar Cadastro'}
-            </h3>
-            <p className="text-gray-600 mb-6">
-              {editingProduct 
-                ? 'Deseja realmente atualizar este produto?' 
-                : 'Deseja realmente cadastrar este produto?'
-              }
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={handleCancelSave}
-                className="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md text-sm font-medium"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleConfirmSave}
-                disabled={isCreating || isUpdating}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white rounded-md text-sm font-medium"
-              >
-                {isCreating || isUpdating ? 'Salvando...' : 'Confirmar'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        onClose={handleCancelSave}
+        onConfirm={handleConfirmSave}
+        title={editingProduct ? 'Confirmar Atualização' : 'Confirmar Cadastro'}
+        message={editingProduct 
+          ? 'Deseja realmente atualizar este produto?' 
+          : 'Deseja realmente cadastrar este produto?'
+        }
+        confirmText={isCreating || isUpdating ? 'Salvando...' : 'Confirmar'}
+        isLoading={isCreating || isUpdating}
+      />
 
-      {showDeleteDialog && (
-        <div className="fixed inset-0 bg-[rgba(74,85,101,0.8)] flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-mx-auto">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
-              Confirmar Exclusão
-            </h3>
-            <p className="text-gray-600 mb-2">
-              Deseja realmente excluir o produto:
-            </p>
-            <p className="font-medium text-gray-900 mb-6">
-              &ldquo;{productToDelete?.name}&rdquo;?
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={cancelDelete}
-                className="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md text-sm font-medium"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={confirmDeleteProduct}
-                disabled={isDeleting}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white rounded-md text-sm font-medium"
-              >
-                {isDeleting ? 'Excluindo...' : 'Excluir'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={cancelDelete}
+        onConfirm={confirmDeleteProduct}
+        title="Confirmar Exclusão"
+        message={`Deseja realmente excluir o produto "${productToDelete?.name}"?`}
+        confirmText={isDeleting ? 'Excluindo...' : 'Excluir'}
+        confirmVariant="danger"
+        isLoading={isDeleting}
+      />
     </ProtectedRoute>
   );
 }
