@@ -3,6 +3,8 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  minProduction: number;
+  maxProduction: number;
   active: boolean;
   createdAt: string;
   updatedAt: string;
@@ -10,8 +12,10 @@ export interface Product {
 
 export interface ProductRequest {
   name: string;
-  description: string;
-  price: number;
+  description?: string;
+  price?: number;
+  minProduction: number;
+  maxProduction: number;
 }
 
 export interface ProductFlagRequest {

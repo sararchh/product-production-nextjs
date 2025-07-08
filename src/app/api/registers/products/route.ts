@@ -1,27 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Product, ProductRequest } from '@/modules/products';
 import { verifyToken, extractToken } from '@/lib/auth-utils';
-
-const products: Product[] = [
-  {
-    id: '1',
-    name: 'Produto A',
-    description: 'Descrição do Produto A',
-    price: 100.00,
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    name: 'Produto B',
-    description: 'Descrição do Produto B',
-    price: 200.00,
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+import { database } from '@/lib/database';
 
 export async function GET(request: NextRequest) {
   try {
@@ -34,6 +14,8 @@ export async function GET(request: NextRequest) {
         { status: 401 }
       );
     }
+
+    const products = await database.getProducts();
 
     return NextResponse.json({
       success: true,
@@ -63,13 +45,17 @@ export async function POST(request: NextRequest) {
     
     const newProduct: Product = {
       id: Date.now().toString(),
-      ...body,
+      name: body.name,
+      description: body.description || '',
+      price: body.price || 0,
+      minProduction: body.minProduction,
+      maxProduction: body.maxProduction,
       active: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
-    products.push(newProduct);
+    await database.addProduct(newProduct);
 
     return NextResponse.json({
       success: true,
