@@ -359,7 +359,12 @@ export default function ProductsPage() {
                         </tr>
                       ) : (
                         filteredProducts.map((product, index) => (
-                          <tr key={product.id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                          <tr 
+                            key={product.id} 
+                            className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} ${
+                              product.active ? "border-l-4 border-blue-500" : ""
+                            }`}
+                          >
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               {String(index + 1).padStart(2, '0')}
                             </td>
