@@ -228,12 +228,22 @@ export default function ProductionsPage() {
 
   const sidebarSections = [
     {
+      title: "Navegação",
+      items: [
+        {
+          label: "Dashboard",
+          isActive: false,
+          onClick: () => router.push("/dashboard"),
+        },
+      ],
+    },
+    {
       title: "Apontamentos",
       items: [
         {
           label: "Apontamento de Produção",
           isActive: true,
-          onClick: () => {},
+          onClick: () => router.push("/productions"),
         },
       ],
     },

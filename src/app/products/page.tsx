@@ -170,12 +170,22 @@ export default function ProductsPage() {
 
   const sidebarSections = [
     {
+      title: "Navegação",
+      items: [
+        {
+          label: "Dashboard",
+          isActive: false,
+          onClick: () => router.push("/dashboard"),
+        },
+      ],
+    },
+    {
       title: "Apontamentos",
       items: [
         {
           label: "Apontamento de Produção",
           isActive: false,
-          onClick: () => {},
+          onClick: () => router.push("/productions"),
         },
       ],
     },
@@ -185,7 +195,7 @@ export default function ProductsPage() {
         {
           label: "Cadastro de Produto",
           isActive: true,
-          onClick: () => {},
+          onClick: () => router.push("/products"),
         },
       ],
     },
