@@ -1,26 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ProductionFlagRequest } from '@/modules/productions';
-
-const productions = [
-  {
-    id: '1',
-    productId: '1',
-    quantity: 50,
-    date: new Date().toISOString().split('T')[0],
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    productId: '2',
-    quantity: 30,
-    date: new Date().toISOString().split('T')[0],
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+import { productions } from '@/lib/productions-store';
 
 export async function PUT(request: NextRequest) {
   try {

@@ -1,26 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Production, ProductionRequest } from '@/modules/productions';
-
-const productions: Production[] = [
-  {
-    id: '1',
-    productId: '1',
-    quantity: 50,
-    productionDate: new Date().toISOString().split('T')[0],
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    productId: '2',
-    quantity: 30,
-    productionDate: new Date().toISOString().split('T')[0],
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+import { productions } from '@/lib/productions-store';
 
 export async function GET(request: NextRequest) {
   try {

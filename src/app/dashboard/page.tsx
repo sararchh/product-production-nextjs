@@ -11,6 +11,10 @@ export default function DashboardPage() {
   const router = useRouter();
   const { user, logout } = useAuthContext();
 
+  const handleGoToProductions = useCallback(() => {
+    router.push("/productions");
+  }, [router]);
+
   const handleGoToProducts = useCallback(() => {
     router.push("/products");
   }, [router]);
@@ -44,8 +48,9 @@ export default function DashboardPage() {
                 icon={<FiClipboard className="w-6 h-6 text-white" />}
                 borderColor="border-green-500"
                 iconBgColor="bg-green-600"
-                actionText="Em breve →"
-                actionTextColor="text-green-700"
+                actionText="Gerenciar apontamentos →"
+                actionTextColor="text-green-700 hover:text-green-600"
+                onClick={handleGoToProductions}
               />
             </div>
 

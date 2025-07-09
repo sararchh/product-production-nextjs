@@ -4,6 +4,7 @@ export interface Production {
   quantity: number;
   productionDate: string;
   active: boolean;
+  justification?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -12,6 +13,7 @@ export interface ProductionRequest {
   productId: string;
   quantity: number;
   productionDate: string;
+  justification?: string;
 }
 
 export interface ProductionFlagRequest {

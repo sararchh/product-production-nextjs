@@ -22,8 +22,7 @@ class Database {
       const dataDir = path.dirname(this.dataPath);
       await fs.mkdir(dataDir, { recursive: true });
       
-      const data = await fs.readFile(this.dataPath, 'utf-8');
-      this._products = JSON.parse(data);
+      this._products = [];
     } catch {
       this._products = [];
       await this.saveData();
