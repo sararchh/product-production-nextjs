@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ProductFlagRequest } from '@/modules/products';
-import { database } from '@/lib/database';
+import { getDatabase } from '@/lib/database';
 
 export async function PUT(request: NextRequest) {
   try {
@@ -15,7 +15,8 @@ export async function PUT(request: NextRequest) {
     const body: ProductFlagRequest = await request.json();
     const { id, active } = body;
 
-    const existingProduct = await database.findProductAsync(id);
+    const database = getDatabase();
+    const existingProduct = await database.getProductById(id);
     
     if (!existingProduct) {
       return NextResponse.json(
@@ -24,19 +25,14 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const updatedProduct = {
-      ...existingProduct,
-      active,
-      updatedAt: new Date().toISOString()
-    };
-
-    await database.updateProduct(id, updatedProduct);
+    await database.updateProductFlag(id, active);
 
     return NextResponse.json({
       success: true,
-      data: updatedProduct
+      data: { id, active }
     });
-  } catch {
+  } catch (error) {
+    console.error('Error updating product flag:', error);
     return NextResponse.json(
       { success: false, message: 'Erro interno do servidor' },
       { status: 500 }

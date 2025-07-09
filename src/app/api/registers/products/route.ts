@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Product, ProductRequest } from '@/modules/products';
 import { verifyToken, extractToken } from '@/lib/auth-utils';
-import { database } from '@/lib/database';
+import { getDatabase } from '@/lib/database';
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,13 +15,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const database = getDatabase();
     const products = await database.getProducts();
 
     return NextResponse.json({
       success: true,
       data: products
     });
-  } catch {
+  } catch (error) {
+    console.error('Error getting products:', error);
     return NextResponse.json(
       { success: false, message: 'Erro interno do servidor' },
       { status: 500 }
@@ -55,13 +57,15 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date().toISOString()
     };
 
-    await database.addProduct(newProduct);
+    const database = getDatabase();
+    await database.createProduct(newProduct);
 
     return NextResponse.json({
       success: true,
       data: newProduct
     }, { status: 201 });
-  } catch {
+  } catch (error) {
+    console.error('Error creating product:', error);
     return NextResponse.json(
       { success: false, message: 'Erro interno do servidor' },
       { status: 500 }

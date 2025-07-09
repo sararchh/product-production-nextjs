@@ -40,3 +40,7 @@ next-env.d.ts
 
 # local data storage
 /data/
+
+# sqlite database
+database.sqlite
+database.sqlite-*

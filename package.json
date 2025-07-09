@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "tsx migrate.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -20,6 +21,7 @@
     "react-hook-form": "^7.60.0",
     "react-icons": "^5.5.0",
     "react-toastify": "^11.0.5",
+    "sqlite3": "^5.1.7",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -31,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
     "tailwindcss": "^4.1.11",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }

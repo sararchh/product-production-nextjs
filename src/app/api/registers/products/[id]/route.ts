@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Product, ProductRequest } from '@/modules/products';
+import { ProductRequest } from '@/modules/products';
 import { verifyToken, extractToken } from '@/lib/auth-utils';
-import { database } from '@/lib/database';
+import { getDatabase } from '@/lib/database';
 
 export async function PUT(
   request: NextRequest,
@@ -21,7 +21,8 @@ export async function PUT(
     const { id } = await context.params;
     const body: ProductRequest = await request.json();
     
-    const existingProduct = await database.findProductAsync(id);
+    const database = getDatabase();
+    const existingProduct = await database.getProductById(id);
     
     if (!existingProduct) {
       return NextResponse.json(
@@ -30,23 +31,23 @@ export async function PUT(
       );
     }
 
-    const updatedProduct: Product = {
-      ...existingProduct,
+    const updatedProductData = {
       name: body.name,
       description: body.description || existingProduct.description,
-      price: body.price || existingProduct.price,
+      price: body.price !== undefined ? body.price : existingProduct.price,
       minProduction: body.minProduction,
       maxProduction: body.maxProduction,
       updatedAt: new Date().toISOString()
     };
 
-    await database.updateProduct(id, updatedProduct);
+    const updatedProduct = await database.updateProduct(id, updatedProductData);
 
     return NextResponse.json({
       success: true,
       data: updatedProduct
     });
-  } catch {
+  } catch (error) {
+    console.error('Error updating product:', error);
     return NextResponse.json(
       { success: false, message: 'Erro interno do servidor' },
       { status: 500 }
@@ -71,7 +72,8 @@ export async function DELETE(
 
     const { id } = await context.params;
     
-    const productExists = await database.findProductAsync(id);
+    const database = getDatabase();
+    const productExists = await database.getProductById(id);
     
     if (!productExists) {
       return NextResponse.json(
@@ -86,7 +88,8 @@ export async function DELETE(
       success: true,
       data: { success: true }
     });
-  } catch {
+  } catch (error) {
+    console.error('Error deleting product:', error);
     return NextResponse.json(
       { success: false, message: 'Erro interno do servidor' },
       { status: 500 }
