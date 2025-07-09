@@ -14,42 +14,9 @@ export default function ProductsPage() {
     router.push("/dashboard");
   }, [router]);
 
-  const sidebarSections = [
-    {
-      title: "Navegação",
-      items: [
-        {
-          label: "Dashboard",
-          isActive: false,
-          onClick: () => router.push("/dashboard"),
-        },
-      ],
-    },
-    {
-      title: "Apontamentos",
-      items: [
-        {
-          label: "Apontamento de Produção",
-          isActive: false,
-          onClick: () => router.push("/productions"),
-        },
-      ],
-    },
-    {
-      title: "Cadastros",
-      items: [
-        {
-          label: "Cadastro de Produto",
-          isActive: true,
-          onClick: () => router.push("/products"),
-        },
-      ],
-    },
-  ];
-
   return (
     <ProtectedRoute>
-      <PageTemplate showSidebar sidebarSections={sidebarSections}>
+      <PageTemplate showSidebar currentPage="products">
         <div className="flex-1 flex flex-col">
           <header className="bg-white shadow-sm border-b">
             <div className="flex justify-between items-center px-6 py-4">
