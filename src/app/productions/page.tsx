@@ -14,7 +14,7 @@ import {
 import { useProducts, Product } from "@/modules/products";
 import { useAuthContext } from "@/modules/auth";
 import { ProtectedRoute, PageTemplate } from "@/shared/components";
-import { ConfirmDialog, FormField, Button, Dialog } from "@/shared/components";
+import { ConfirmDialog, FormField, Button, Dialog, Input, Select } from "@/shared/components";
 
 const productionSchema = z.object({
   productId: z.string().min(1, "Produto é obrigatório"),
@@ -273,18 +273,20 @@ export default function ProductionsPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <button
+                <Button
                   onClick={handleGoToDashboard}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  variant="primary"
+                  size="sm"
                 >
                   Dashboard
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={logout}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  variant="danger"
+                  size="sm"
                 >
                   Sair
-                </button>
+                </Button>
               </div>
             </div>
           </header>
@@ -298,7 +300,7 @@ export default function ProductionsPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Produto *
                       </label>
-                      <input
+                      <Input
                         type="text"
                         value={productSearch}
                         onChange={(e) => {
@@ -307,7 +309,8 @@ export default function ProductionsPage() {
                         }}
                         onFocus={() => setShowProductDropdown(true)}
                         placeholder="Digite para buscar produtos..."
-                        className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        fullWidth
+                        error={!!errors.productId}
                       />
                       {errors.productId && (
                         <p className="mt-1 text-sm text-red-600">{errors.productId.message}</p>
@@ -315,17 +318,21 @@ export default function ProductionsPage() {
                       {showProductDropdown && filteredProducts.length > 0 && (
                         <div className="absolute top-16 left-0 right-0 z-10 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
                           {filteredProducts.map((product) => (
-                            <button
+                            <Button
                               key={product.id}
                               type="button"
                               onClick={() => handleProductSelect(product)}
-                              className="w-full text-left p-2 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+                              variant="ghost"
+                              fullWidth
+                              className="text-left p-2 hover:bg-gray-100 border-b border-gray-100 last:border-b-0 rounded-none justify-start"
                             >
-                              <div className="font-medium">{product.name}</div>
-                              <div className="text-sm text-gray-500">
-                                Produção: {product.minProduction} - {product.maxProduction} m²
+                              <div>
+                                <div className="font-medium">{product.name}</div>
+                                <div className="text-sm text-gray-500">
+                                  Produção: {product.minProduction} - {product.maxProduction} m²
+                                </div>
                               </div>
-                            </button>
+                            </Button>
                           ))}
                         </div>
                       )}
@@ -367,41 +374,32 @@ export default function ProductionsPage() {
                 </form>
 
                 <div className="mt-6 flex justify-center">
-                  <button
+                  <Button
                     onClick={handleToggleForm}
-                    className="text-gray-600 hover:text-gray-800 text-sm"
+                    variant="ghost"
+                    size="sm"
                   >
                     ← Voltar para a lista
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
               <div className="bg-white rounded-lg shadow">
                 <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                   <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => setSituationFilter("all")}
-                      className={`px-3 py-2 rounded-md text-sm font-medium ${
-                        situationFilter === "all"
-                          ? "bg-blue-100 text-blue-700"
-                          : "text-gray-600 hover:text-gray-800"
-                      }`}
-                    >
-                      Filtro situação
-                    </button>
-                    <select
+                    <Select
                       value={situationFilter}
                       onChange={(e) => setSituationFilter(e.target.value as "all" | "active" | "inactive")}
-                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      size="sm"
                     >
                       <option value="all">Todos</option>
                       <option value="active">Ativo</option>
                       <option value="inactive">Inativo</option>
-                    </select>
-                    <select
+                    </Select>
+                    <Select
                       value={productFilter}
                       onChange={(e) => setProductFilter(e.target.value)}
-                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      size="sm"
                     >
                       <option value="all">Todos os produtos</option>
                       {activeProducts.map((product) => (
@@ -409,14 +407,15 @@ export default function ProductionsPage() {
                           {product.name}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </div>
-                  <button
+                  <Button
                     onClick={handleToggleForm}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium"
+                    variant="primary"
+                    size="sm"
                   >
                     Adicionar
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="overflow-hidden">
@@ -476,22 +475,26 @@ export default function ProductionsPage() {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm">
                                 <div className="flex space-x-2">
-                                  <button
+                                  <Button
                                     onClick={() => toggleProductionStatus(production.id, production.active)}
                                     disabled={isUpdatingFlag}
+                                    variant="ghost"
+                                    size="sm"
                                     className="text-indigo-600 hover:text-indigo-900 font-medium"
                                     title="Alterar Situação"
                                   >
                                     Alterar Situação
-                                  </button>
+                                  </Button>
                                   {production.justification && (
-                                    <button
+                                    <Button
                                       onClick={() => handleViewJustification(production.justification!)}
+                                      variant="ghost"
+                                      size="sm"
                                       className="text-green-600 hover:text-green-900 font-medium"
                                       title="Ver Justificativa"
                                     >
                                       Ver Justificativa
-                                    </button>
+                                    </Button>
                                   )}
                                 </div>
                               </td>
@@ -528,17 +531,25 @@ export default function ProductionsPage() {
 
                 <div className="px-6 py-3 border-t border-gray-200 flex justify-center">
                   <div className="flex items-center space-x-2">
-                    <button className="p-2 text-gray-400 hover:text-gray-600">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="p-2 text-gray-400 hover:text-gray-600"
+                    >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
-                    </button>
+                    </Button>
                     <span className="text-sm text-gray-700">1</span>
-                    <button className="p-2 text-gray-400 hover:text-gray-600">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="p-2 text-gray-400 hover:text-gray-600"
+                    >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

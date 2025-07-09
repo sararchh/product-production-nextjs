@@ -16,7 +16,7 @@ import {
 } from "@/modules/products";
 import { useAuthContext } from "@/modules/auth";
 import { ProtectedRoute, PageTemplate } from "@/shared/components";
-import { ConfirmDialog, FormField, Button } from "@/shared/components";
+import { ConfirmDialog, FormField, Button, Select } from "@/shared/components";
 
 const productSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -216,18 +216,20 @@ export default function ProductsPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <button
+                <Button
                   onClick={handleGoToDashboard}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  variant="primary"
+                  size="sm"
                 >
                   Dashboard
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={logout}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  variant="danger"
+                  size="sm"
                 >
                   Sair
-                </button>
+                </Button>
               </div>
             </div>
           </header>
@@ -281,44 +283,36 @@ export default function ProductsPage() {
                 </form>
 
                 <div className="mt-6 flex justify-center">
-                  <button
+                  <Button
                     onClick={handleToggleForm}
-                    className="text-gray-600 hover:text-gray-800 text-sm"
+                    variant="ghost"
+                    size="sm"
                   >
                     ← Voltar para a lista
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
               <div className="bg-white rounded-lg shadow">
                 <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                   <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => setSituationFilter("all")}
-                      className={`px-3 py-2 rounded-md text-sm font-medium ${
-                        situationFilter === "all"
-                          ? "bg-blue-100 text-blue-700"
-                          : "text-gray-600 hover:text-gray-800"
-                      }`}
-                    >
-                      Filtro situação
-                    </button>
-                    <select
+                    <Select
                       value={situationFilter}
                       onChange={(e) => setSituationFilter(e.target.value as "all" | "active" | "inactive")}
-                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      size="sm"
                     >
                       <option value="all">Todos</option>
                       <option value="active">Ativo</option>
                       <option value="inactive">Inativo</option>
-                    </select>
+                    </Select>
                   </div>
-                  <button
+                  <Button
                     onClick={handleToggleForm}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium"
+                    variant="primary"
+                    size="sm"
                   >
                     Adicionar
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="overflow-hidden">
@@ -371,30 +365,36 @@ export default function ProductsPage() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm">
                               <div className="flex space-x-2">
-                                <button 
+                                <Button 
                                   onClick={() => handleEditProduct(product)}
-                                  className="text-blue-600 hover:text-blue-800"
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-blue-600 hover:text-blue-800 p-1"
                                   title="Editar produto"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                   </svg>
-                                </button>
-                                <button 
+                                </Button>
+                                <Button 
                                   onClick={() => handleDeleteProduct(product)}
-                                  className="text-red-600 hover:text-red-800"
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-red-600 hover:text-red-800 p-1"
                                   title="Excluir produto"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                   </svg>
-                                </button>
+                                </Button>
                               </div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <button
+                              <Button
                                 onClick={() => toggleProductStatus(product.id, product.active)}
                                 disabled={isUpdatingFlag}
+                                variant="ghost"
+                                size="sm"
                                 className={`px-3 py-1 text-xs font-medium rounded-full ${
                                   product.active
                                     ? "bg-blue-100 text-blue-800 hover:bg-blue-200"
@@ -402,7 +402,7 @@ export default function ProductsPage() {
                                 }`}
                               >
                                 {product.active ? "ATIVO" : "INATIVO"}
-                              </button>
+                              </Button>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               {product.name}
@@ -419,17 +419,25 @@ export default function ProductsPage() {
 
                 <div className="px-6 py-3 border-t border-gray-200 flex justify-center">
                   <div className="flex items-center space-x-2">
-                    <button className="p-2 text-gray-400 hover:text-gray-600">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="p-2 text-gray-400 hover:text-gray-600"
+                    >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
-                    </button>
+                    </Button>
                     <span className="text-sm text-gray-700">1</span>
-                    <button className="p-2 text-gray-400 hover:text-gray-600">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="p-2 text-gray-400 hover:text-gray-600"
+                    >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
