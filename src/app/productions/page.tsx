@@ -297,7 +297,7 @@ export default function ProductionsPage() {
                         }}
                         onFocus={() => setShowProductDropdown(true)}
                         placeholder="Digite para buscar produtos..."
-                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                       {errors.productId && (
                         <p className="mt-1 text-sm text-red-600">{errors.productId.message}</p>
@@ -382,7 +382,7 @@ export default function ProductionsPage() {
                     <select
                       value={situationFilter}
                       onChange={(e) => setSituationFilter(e.target.value as "all" | "active" | "inactive")}
-                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="all">Todos</option>
                       <option value="active">Ativo</option>
@@ -391,7 +391,7 @@ export default function ProductionsPage() {
                     <select
                       value={productFilter}
                       onChange={(e) => setProductFilter(e.target.value)}
-                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="all">Todos os produtos</option>
                       {activeProducts.map((product) => (
@@ -553,7 +553,7 @@ export default function ProductionsPage() {
                 <textarea
                   {...registerJustification("justification", { required: "Justificativa é obrigatória" })}
                   rows={4}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Descreva o motivo da produção estar fora do padrão..."
                 />
                 {justificationErrors.justification && (

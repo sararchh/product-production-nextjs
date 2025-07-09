@@ -15,7 +15,7 @@ export const Input: React.FC<InputProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'border rounded-md focus:outline-none focus:ring-2 focus:ring-offset-0 transition-colors duration-200 placeholder-gray-400';
+  const baseClasses = 'border rounded-md outline-none focus:outline-none focus:ring-2 focus:ring-offset-0 transition-colors duration-200 placeholder-gray-400';
   
   const variantClasses = {
     default: 'border-gray-300 text-gray-700 focus:ring-blue-500 focus:border-blue-500',

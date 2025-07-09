@@ -296,7 +296,7 @@ export default function ProductsPage() {
                     <select
                       value={situationFilter}
                       onChange={(e) => setSituationFilter(e.target.value as "all" | "active" | "inactive")}
-                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="all">Todos</option>
                       <option value="active">Ativo</option>
