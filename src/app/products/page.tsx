@@ -15,8 +15,8 @@ import {
   Product,
 } from "@/modules/products";
 import { useAuthContext } from "@/modules/auth";
-import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { ConfirmDialog } from "@/shared/components";
+import { ProtectedRoute, PageTemplate } from "@/shared/components";
+import { ConfirmDialog, FormField, Button } from "@/shared/components";
 
 const productSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -168,40 +168,32 @@ export default function ProductsPage() {
     }
   }, [showForm, reset]);
 
+  const sidebarSections = [
+    {
+      title: "Apontamentos",
+      items: [
+        {
+          label: "Apontamento de Produção",
+          isActive: false,
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: "Cadastros",
+      items: [
+        {
+          label: "Cadastro de Produto",
+          isActive: true,
+          onClick: () => {},
+        },
+      ],
+    },
+  ];
+
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 flex">
-        <div className="w-64 bg-white shadow-lg">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-900">Menu principal</h2>
-          </div>
-          <nav className="mt-4">
-            <div className="px-4 py-2">
-              <h3 className="text-sm font-medium text-gray-700 uppercase tracking-wider">
-                Apontamentos
-              </h3>
-              <ul className="mt-2 space-y-1">
-                <li>
-                  <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
-                    Apontamento de Produção
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div className="px-4 py-2 mt-4">
-              <h3 className="text-sm font-medium text-gray-700 uppercase tracking-wider">
-                Cadastros
-              </h3>
-              <ul className="mt-2 space-y-1">
-                <li>
-                  <button className="w-full text-left px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded-md font-medium">
-                    Cadastro de Produto
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
+      <PageTemplate showSidebar sidebarSections={sidebarSections}>
 
         <div className="flex-1 flex flex-col">
           <header className="bg-white shadow-sm border-b">
@@ -235,68 +227,46 @@ export default function ProductsPage() {
               <div className="bg-white rounded-lg shadow p-6">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                        Produto
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        {...register('name')}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Nome do produto"
-                      />
-                      {errors.name && (
-                        <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                      )}
-                    </div>
+                    <FormField
+                      label="Produto"
+                      name="name"
+                      type="text"
+                      placeholder="Nome do produto"
+                      register={register}
+                      error={errors.name?.message}
+                    />
 
-                    <div>
-                      <label htmlFor="minProduction" className="block text-sm font-medium text-gray-700 mb-1">
-                        Produção Min.
-                      </label>
-                      <input
-                        type="number"
-                        id="minProduction"
-                        {...register('minProduction', { valueAsNumber: true })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Mínima"
-                      />
-                      {errors.minProduction && (
-                        <p className="mt-1 text-sm text-red-600">{errors.minProduction.message}</p>
-                      )}
-                    </div>
+                    <FormField
+                      label="Produção Min."
+                      name="minProduction"
+                      type="number"
+                      placeholder="Mínima"
+                      register={register}
+                      error={errors.minProduction?.message}
+                      valueAsNumber
+                    />
 
-                    <div>
-                      <label htmlFor="maxProduction" className="block text-sm font-medium text-gray-700 mb-1">
-                        Produção Máx.
-                      </label>
-                      <input
-                        type="number"
-                        id="maxProduction"
-                        {...register('maxProduction', { valueAsNumber: true })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Máxima"
-                      />
-                      {errors.maxProduction && (
-                        <p className="mt-1 text-sm text-red-600">{errors.maxProduction.message}</p>
-                      )}
-                    </div>
+                    <FormField
+                      label="Produção Máx."
+                      name="maxProduction"
+                      type="number"
+                      placeholder="Máxima"
+                      register={register}
+                      error={errors.maxProduction?.message}
+                      valueAsNumber
+                    />
                   </div>
 
                   <div className="flex justify-center">
-                    <button
+                    <Button
                       type="submit"
-                      disabled={isCreating || isUpdating}
-                      className="w-full max-w-md bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 text-white px-6 py-3 rounded-md text-sm font-medium"
+                      isLoading={isCreating || isUpdating}
+                      loadingText="Salvando..."
+                      className="w-full max-w-md"
+                      size="lg"
                     >
-                      {isCreating || isUpdating 
-                        ? 'Salvando...' 
-                        : editingProduct 
-                          ? 'Atualizar' 
-                          : 'Salvar'
-                      }
-                    </button>
+                      {editingProduct ? 'Atualizar' : 'Salvar'}
+                    </Button>
                   </div>
                 </form>
 
@@ -456,7 +426,6 @@ export default function ProductsPage() {
             )}
           </main>
         </div>
-      </div>
 
       <ConfirmDialog
         isOpen={showConfirmDialog}
@@ -481,6 +450,7 @@ export default function ProductsPage() {
         confirmVariant="danger"
         isLoading={isDeleting}
       />
+      </PageTemplate>
     </ProtectedRoute>
   );
 }

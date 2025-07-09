@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text, Button } from '../atoms';
 
 export interface DialogProps {
   isOpen: boolean;
@@ -26,26 +27,34 @@ export const Dialog: React.FC<DialogProps> = ({
     xl: 'max-w-xl',
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     <div 
       className="fixed inset-0 bg-[rgba(74,85,101,0.5)] flex items-center justify-center z-50"
-      onClick={onClose}
+      onClick={handleBackdropClick}
     >
       <div 
         className={`bg-white rounded-lg p-6 w-full mx-4 ${maxWidthClasses[maxWidth]}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-gray-900">
+          <Text variant="h4" weight="medium">
             {title}
-          </h3>
+          </Text>
           {showCloseButton && (
-            <button
+            <Button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-xl font-bold"
+              variant="ghost"
+              size="sm"
+              className="text-gray-400 hover:text-gray-600 text-xl font-bold p-1"
             >
               ×
-            </button>
+            </Button>
           )}
         </div>
         {children}

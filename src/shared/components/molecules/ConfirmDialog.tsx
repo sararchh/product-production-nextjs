@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog } from './Dialog';
+import { Button, Text } from '../atoms';
 
 export interface ConfirmDialogProps {
   isOpen: boolean;
@@ -24,11 +25,6 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmVariant = 'primary',
   isLoading = false,
 }) => {
-  const confirmButtonClasses = {
-    primary: 'bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300',
-    danger: 'bg-red-600 hover:bg-red-700 disabled:bg-red-300',
-  };
-
   return (
     <Dialog
       isOpen={isOpen}
@@ -38,27 +34,29 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     >
       <div className="mb-6">
         {typeof message === 'string' ? (
-          <p className="text-gray-600">{message}</p>
+          <Text color="secondary">{message}</Text>
         ) : (
           <div className="text-gray-600">{message}</div>
         )}
       </div>
       
       <div className="flex justify-end space-x-3">
-        <button
+        <Button
           onClick={onClose}
           disabled={isLoading}
-          className="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 rounded-md text-sm font-medium"
+          variant="secondary"
         >
           {cancelText}
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onConfirm}
           disabled={isLoading}
-          className={`px-4 py-2 text-white rounded-md text-sm font-medium ${confirmButtonClasses[confirmVariant]}`}
+          variant={confirmVariant}
+          isLoading={isLoading}
+          loadingText="Aguarde..."
         >
-          {isLoading ? 'Aguarde...' : confirmText}
-        </button>
+          {confirmText}
+        </Button>
       </div>
     </Dialog>
   );
