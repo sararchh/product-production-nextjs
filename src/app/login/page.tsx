@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { FiSettings } from 'react-icons/fi';
 import { useAuthContext } from '@/modules/auth';
 import { FormInput, Button } from '@/shared/components';
 
@@ -54,7 +55,7 @@ export default function LoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center transform rotate-45">
-            <span className="text-white font-bold text-xl transform -rotate-45">Login</span>
+            <FiSettings className="text-white text-2xl transform -rotate-45" />
           </div>
         </div>
       </div>

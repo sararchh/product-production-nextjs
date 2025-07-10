@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Sidebar, SidebarSection } from '../organisms';
 import { Button } from '../atoms';
@@ -23,6 +23,9 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
 }) => {
   const router = useRouter();
   const { logout } = useAuthContext();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const getPageTitle = () => {
     if (pageTitle) return pageTitle;
@@ -77,12 +80,18 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
     <div className={`min-h-screen bg-gray-50 ${className}`}>
       <div className="flex h-screen">
         {showSidebar && finalSidebarSections.length > 0 && (
-          <Sidebar sections={finalSidebarSections} />
+          <Sidebar 
+            sections={finalSidebarSections} 
+            isOpen={sidebarOpen}
+            onToggle={toggleSidebar}
+          />
         )}
         <div className="flex-1 flex flex-col overflow-hidden">
           <header className="bg-white shadow-sm border-b border-gray-200">
             <div className="flex justify-between items-center px-6 py-4">
               <div className="flex items-center space-x-2">
+                {/* Espaço reservado para o botão hamburger em mobile */}
+                <div className="md:hidden w-10"></div>
                 <h1 className="text-xl font-semibold text-gray-900">
                   {getPageTitle()}
                 </h1>
