@@ -1,4 +1,5 @@
 import React from 'react';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export interface SpinnerProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -12,20 +13,20 @@ export const Spinner: React.FC<SpinnerProps> = ({
   className = '',
 }) => {
   const sizeClasses = {
-    xs: 'w-3 h-3',
-    sm: 'w-4 h-4',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8',
-    xl: 'w-12 h-12',
+    xs: 'h-3 w-3',
+    sm: 'h-4 w-4',
+    md: 'h-6 w-6',
+    lg: 'h-8 w-8',
+    xl: 'h-12 w-12',
   };
 
   const colorClasses = {
-    primary: 'border-blue-600',
-    secondary: 'border-gray-600',
-    white: 'border-white',
+    primary: 'text-blue-600',
+    secondary: 'text-gray-600',
+    white: 'text-white',
   };
 
-  const classes = `animate-spin rounded-full border-2 border-t-transparent ${sizeClasses[size]} ${colorClasses[color]} ${className}`;
+  const classes = `animate-spin ${sizeClasses[size]} ${colorClasses[color]} ${className}`;
 
-  return <div className={classes} />;
+  return <AiOutlineLoading3Quarters className={classes} />;
 };

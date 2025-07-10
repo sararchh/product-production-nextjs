@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useAuthContext } from '@/modules/auth';
 
 export default function Home() {
@@ -21,7 +22,7 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <AiOutlineLoading3Quarters className="animate-spin h-32 w-32 text-blue-600" />
       </div>
     );
   }

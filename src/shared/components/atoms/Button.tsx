@@ -1,4 +1,5 @@
 import React from 'react';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Icon } from './Icon';
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
@@ -61,7 +62,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {isLoading ? (
         <>
-          <Icon name="loading" size={iconSizes[size]} />
+          <AiOutlineLoading3Quarters className={`animate-spin ${iconSizes[size] === 'sm' ? 'h-4 w-4' : 'h-5 w-5'}`} />
           {loadingText}
         </>
       ) : (

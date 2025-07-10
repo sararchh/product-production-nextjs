@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useProduct, useUpdateProduct } from "@/modules/products";
 import { ProductForm } from "@/modules/products/components/ProductForm";
 import { useAuthContext } from "@/modules/auth";
@@ -69,8 +70,7 @@ export default function EditProductPage() {
 
             <main className="flex-1 p-6 flex items-center justify-center">
               <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                <span>Carregando produto...</span>
+                <AiOutlineLoading3Quarters className="animate-spin h-6 w-6 text-blue-600" />
               </div>
             </main>
           </div>

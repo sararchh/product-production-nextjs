@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   useProductions,
   useUpdateProductionFlag,
@@ -183,7 +184,7 @@ export default function ProductionsPage() {
                       <tr>
                         <td colSpan={5} className="px-6 py-4 text-center">
                           <div className="flex justify-center">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                            <AiOutlineLoading3Quarters className="animate-spin h-6 w-6 text-blue-600" />
                           </div>
                         </td>
                       </tr>
