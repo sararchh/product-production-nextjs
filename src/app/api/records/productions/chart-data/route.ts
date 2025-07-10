@@ -4,10 +4,8 @@ import { getDatabase } from "@/lib/database";
 export async function GET() {
   try {
     const db = getDatabase();
-    
     const productions = await db.getProductionChartData();
 
-    // Processar os dados para o gráfico
     const chartData = productions.map(production => {
       let status: 'low' | 'normal' | 'high' = 'normal';
       

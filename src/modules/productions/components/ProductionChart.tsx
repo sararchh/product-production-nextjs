@@ -15,7 +15,6 @@ import {
 import { useProductionChartData } from '../hooks/useProductionChartData';
 import { Spinner } from '@/shared/components';
 
-// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -53,7 +52,6 @@ export const ProductionChart = () => {
     );
   }
 
-  // Preparar dados para o gráfico
   const chartData = {
     labels: data.data.map(item => {
       const date = new Date(item.date);
@@ -66,21 +64,21 @@ export const ProductionChart = () => {
         borderColor: data.data.map(item => {
           switch (item.status) {
             case 'low':
-              return '#ef4444'; // red
+              return '#ef4444';
             case 'high':
-              return '#f59e0b'; // amber
+              return '#f59e0b';
             default:
-              return '#10b981'; // green
+              return '#10b981';
           }
         }),
         backgroundColor: data.data.map(item => {
           switch (item.status) {
             case 'low':
-              return '#ef444440'; // red with transparency
+              return '#ef444440';
             case 'high':
-              return '#f59e0b40'; // amber with transparency
+              return '#f59e0b40';
             default:
-              return '#10b98140'; // green with transparency
+              return '#10b98140';
           }
         }),
         pointBackgroundColor: data.data.map(item => {
