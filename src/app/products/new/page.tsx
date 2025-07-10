@@ -13,22 +13,25 @@ export default function NewProductPage() {
   const { user, logout } = useAuthContext();
   const { createProduct, isLoading } = useCreateProduct();
 
-  const handleSubmit = useCallback(async (data: { name: string; minProduction: number; maxProduction: number; }) => {
-    try {
-      await createProduct(data);
-      toast.success("Produto criado com sucesso!");
-      router.push("/products");
-    } catch {
-      toast.error("Erro ao criar produto");
-    }
-  }, [createProduct, router]);
+  const handleSubmit = useCallback(
+    async (data: {
+      name: string;
+      minProduction: number;
+      maxProduction: number;
+    }) => {
+      try {
+        await createProduct(data);
+        toast.success("Produto criado com sucesso!");
+        router.push("/products");
+      } catch {
+        toast.error("Erro ao criar produto");
+      }
+    },
+    [createProduct, router]
+  );
 
   const handleCancel = useCallback(() => {
     router.push("/products");
-  }, [router]);
-
-  const handleGoToDashboard = useCallback(() => {
-    router.push("/dashboard");
   }, [router]);
 
   return (
@@ -44,18 +47,7 @@ export default function NewProductPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <Button
-                  onClick={handleGoToDashboard}
-                  variant="primary"
-                  size="sm"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  onClick={logout}
-                  variant="danger"
-                  size="sm"
-                >
+                <Button onClick={logout} variant="danger" size="sm">
                   Sair
                 </Button>
               </div>

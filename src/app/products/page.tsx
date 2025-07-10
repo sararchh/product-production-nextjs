@@ -1,18 +1,11 @@
 "use client";
 
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { ProductList } from "@/modules/products/components/ProductList";
 import { useAuthContext } from "@/modules/auth";
 import { ProtectedRoute, PageTemplate, Button } from "@/shared/components";
 
 export default function ProductsPage() {
-  const router = useRouter();
   const { user, logout } = useAuthContext();
-
-  const handleGoToDashboard = useCallback(() => {
-    router.push("/dashboard");
-  }, [router]);
 
   return (
     <ProtectedRoute>
@@ -27,18 +20,7 @@ export default function ProductsPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <Button
-                  onClick={handleGoToDashboard}
-                  variant="primary"
-                  size="sm"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  onClick={logout}
-                  variant="danger"
-                  size="sm"
-                >
+                <Button onClick={logout} variant="danger" size="sm">
                   Sair
                 </Button>
               </div>

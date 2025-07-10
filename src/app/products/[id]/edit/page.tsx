@@ -13,27 +13,30 @@ export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
   const { user, logout } = useAuthContext();
-  
+
   const productId = params.id as string;
   const { data: product, isLoading: isLoadingProduct } = useProduct(productId);
   const { updateProduct, isLoading: isUpdating } = useUpdateProduct();
 
-  const handleSubmit = useCallback(async (data: { name: string; minProduction: number; maxProduction: number; }) => {
-    try {
-      await updateProduct({ id: productId, data });
-      toast.success("Produto atualizado com sucesso!");
-      router.push("/products");
-    } catch {
-      toast.error("Erro ao atualizar produto");
-    }
-  }, [updateProduct, productId, router]);
+  const handleSubmit = useCallback(
+    async (data: {
+      name: string;
+      minProduction: number;
+      maxProduction: number;
+    }) => {
+      try {
+        await updateProduct({ id: productId, data });
+        toast.success("Produto atualizado com sucesso!");
+        router.push("/products");
+      } catch {
+        toast.error("Erro ao atualizar produto");
+      }
+    },
+    [updateProduct, productId, router]
+  );
 
   const handleCancel = useCallback(() => {
     router.push("/products");
-  }, [router]);
-
-  const handleGoToDashboard = useCallback(() => {
-    router.push("/dashboard");
   }, [router]);
 
   if (isLoadingProduct) {
@@ -50,18 +53,7 @@ export default function EditProductPage() {
                 </div>
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-700">Olá, {user?.name}</span>
-                  <Button
-                    onClick={handleGoToDashboard}
-                    variant="primary"
-                    size="sm"
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    onClick={logout}
-                    variant="danger"
-                    size="sm"
-                  >
+                  <Button onClick={logout} variant="danger" size="sm">
                     Sair
                   </Button>
                 </div>
@@ -93,18 +85,7 @@ export default function EditProductPage() {
                 </div>
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-700">Olá, {user?.name}</span>
-                  <Button
-                    onClick={handleGoToDashboard}
-                    variant="primary"
-                    size="sm"
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    onClick={logout}
-                    variant="danger"
-                    size="sm"
-                  >
+                  <Button onClick={logout} variant="danger" size="sm">
                     Sair
                   </Button>
                 </div>
@@ -138,18 +119,7 @@ export default function EditProductPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <Button
-                  onClick={handleGoToDashboard}
-                  variant="primary"
-                  size="sm"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  onClick={logout}
-                  variant="danger"
-                  size="sm"
-                >
+                <Button onClick={logout} variant="danger" size="sm">
                   Sair
                 </Button>
               </div>

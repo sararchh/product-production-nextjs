@@ -16,64 +16,66 @@ import { Button, Dialog, Select } from "@/shared/components";
 export default function ProductionsPage() {
   const router = useRouter();
   const { user, logout } = useAuthContext();
-  const [situationFilter, setSituationFilter] = useState<"all" | "active" | "inactive">("all");
+  const [situationFilter, setSituationFilter] = useState<
+    "all" | "active" | "inactive"
+  >("all");
   const [productFilter, setProductFilter] = useState<string>("all");
   const [showJustificationView, setShowJustificationView] = useState(false);
   const [currentJustification, setCurrentJustification] = useState<string>("");
 
   const { data: productions, isLoading, error } = useProductions();
   const { data: products } = useProducts();
-  const { updateProductionFlag, isLoading: isUpdatingFlag } = useUpdateProductionFlag();
+  const { updateProductionFlag, isLoading: isUpdatingFlag } =
+    useUpdateProductionFlag();
 
   const activeProducts = useMemo(() => {
-    return products?.filter(product => product.active) || [];
+    return products?.filter((product) => product.active) || [];
   }, [products]);
 
   const filteredProductions = useMemo(() => {
     if (!productions) return [];
-    
+
     let filtered = productions;
 
     if (situationFilter !== "all") {
-      filtered = filtered.filter(production => 
+      filtered = filtered.filter((production) =>
         situationFilter === "active" ? production.active : !production.active
       );
     }
 
     if (productFilter !== "all") {
-      filtered = filtered.filter(production => production.productId === productFilter);
+      filtered = filtered.filter(
+        (production) => production.productId === productFilter
+      );
     }
 
     return filtered;
   }, [productions, situationFilter, productFilter]);
 
-  const handleGoToDashboard = useCallback(() => {
-    router.push("/dashboard");
-  }, [router]);
-
   const handleToggleForm = useCallback(() => {
     router.push("/productions/new");
   }, [router]);
 
-  const toggleProductionStatus = useCallback(async (id: string, currentStatus: boolean) => {
-    try {
-      await updateProductionFlag({
-        id,
-        active: !currentStatus,
-      });
-      toast.success("Status atualizado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao atualizar status:", error);
-      toast.error("Erro ao atualizar status. Tente novamente.");
-    }
-  }, [updateProductionFlag]);
+  const toggleProductionStatus = useCallback(
+    async (id: string, currentStatus: boolean) => {
+      try {
+        await updateProductionFlag({
+          id,
+          active: !currentStatus,
+        });
+        toast.success("Status atualizado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao atualizar status:", error);
+        toast.error("Erro ao atualizar status. Tente novamente.");
+      }
+    },
+    [updateProductionFlag]
+  );
 
   const handleViewJustification = useCallback((justification: string) => {
     setCurrentJustification(justification);
     setShowJustificationView(true);
   }, []);
-
-
 
   return (
     <ProtectedRoute>
@@ -88,18 +90,7 @@ export default function ProductionsPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <Button
-                  onClick={handleGoToDashboard}
-                  variant="primary"
-                  size="sm"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  onClick={logout}
-                  variant="danger"
-                  size="sm"
-                >
+                <Button onClick={logout} variant="danger" size="sm">
                   Sair
                 </Button>
               </div>
@@ -112,7 +103,11 @@ export default function ProductionsPage() {
                 <div className="flex items-center space-x-4">
                   <Select
                     value={situationFilter}
-                    onChange={(e) => setSituationFilter(e.target.value as "all" | "active" | "inactive")}
+                    onChange={(e) =>
+                      setSituationFilter(
+                        e.target.value as "all" | "active" | "inactive"
+                      )
+                    }
                     size="sm"
                   >
                     <option value="all">Todos</option>
@@ -132,11 +127,7 @@ export default function ProductionsPage() {
                     ))}
                   </Select>
                 </div>
-                <Button
-                  onClick={handleToggleForm}
-                  variant="primary"
-                  size="sm"
-                >
+                <Button onClick={handleToggleForm} variant="primary" size="sm">
                   Adicionar
                 </Button>
               </div>
@@ -157,8 +148,18 @@ export default function ProductionsPage() {
                     size="sm"
                     className="p-2 text-gray-400 hover:text-gray-600"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
                     </svg>
                   </Button>
                   <span className="text-sm text-gray-700">1</span>
@@ -167,8 +168,18 @@ export default function ProductionsPage() {
                     size="sm"
                     className="p-2 text-gray-400 hover:text-gray-600"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </Button>
                 </div>

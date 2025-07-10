@@ -12,10 +12,6 @@ export default function NewProductionPage() {
   const { user, logout } = useAuthContext();
   const { createProduction, isLoading } = useCreateProduction();
 
-  const handleGoToDashboard = () => {
-    router.push("/dashboard");
-  };
-
   const handleGoToProductions = () => {
     router.push("/productions");
   };
@@ -36,7 +32,10 @@ export default function NewProductionPage() {
     }
   };
 
-  const handleSubmitWithJustification = async (data: ProductionFormData, justification: string) => {
+  const handleSubmitWithJustification = async (
+    data: ProductionFormData,
+    justification: string
+  ) => {
     try {
       const productionData = {
         ...data,
@@ -53,8 +52,6 @@ export default function NewProductionPage() {
     }
   };
 
-
-
   return (
     <ProtectedRoute>
       <PageTemplate showSidebar currentPage="productions">
@@ -68,18 +65,7 @@ export default function NewProductionPage() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Olá, {user?.name}</span>
-                <Button
-                  onClick={handleGoToDashboard}
-                  variant="primary"
-                  size="sm"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  onClick={logout}
-                  variant="danger"
-                  size="sm"
-                >
+                <Button onClick={logout} variant="danger" size="sm">
                   Sair
                 </Button>
               </div>
