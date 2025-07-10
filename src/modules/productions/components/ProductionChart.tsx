@@ -102,6 +102,7 @@ export const ProductionChart = () => {
 
   const options: ChartOptions<'line'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top' as const,
@@ -164,7 +165,7 @@ export const ProductionChart = () => {
           </div>
         </div>
       </div>
-      <div className="h-80">
+      <div className="w-full h-80 relative">
         <Line data={chartData} options={options} />
       </div>
     </div>

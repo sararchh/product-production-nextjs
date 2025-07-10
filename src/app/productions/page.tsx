@@ -9,13 +9,11 @@ import {
   ProductionTable,
 } from "@/modules/productions";
 import { useProducts } from "@/modules/products";
-import { useAuthContext } from "@/modules/auth";
 import { ProtectedRoute, PageTemplate } from "@/shared/components";
 import { Button, Dialog, Select } from "@/shared/components";
 
 export default function ProductionsPage() {
   const router = useRouter();
-  const { user, logout } = useAuthContext();
   const [situationFilter, setSituationFilter] = useState<
     "all" | "active" | "inactive"
   >("all");
@@ -80,112 +78,92 @@ export default function ProductionsPage() {
   return (
     <ProtectedRoute>
       <PageTemplate showSidebar currentPage="productions">
-        <div className="flex-1 flex flex-col">
-          <header className="bg-white shadow-sm border-b">
-            <div className="flex justify-between items-center px-6 py-4">
-              <div className="flex items-center space-x-2">
-                <h1 className="text-xl font-semibold text-gray-900">
-                  Apontamento de Produção
-                </h1>
-              </div>
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700">Olá, {user?.name}</span>
-                <Button onClick={logout} variant="danger" size="sm">
-                  Sair
-                </Button>
-              </div>
+        <div className="bg-white rounded-lg shadow">
+          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <Select
+                value={situationFilter}
+                onChange={(e) =>
+                  setSituationFilter(
+                    e.target.value as "all" | "active" | "inactive"
+                  )
+                }
+                size="sm"
+              >
+                <option value="all">Todos</option>
+                <option value="active">Ativo</option>
+                <option value="inactive">Inativo</option>
+              </Select>
+              <Select
+                value={productFilter}
+                onChange={(e) => setProductFilter(e.target.value)}
+                size="sm"
+              >
+                <option value="all">Todos os produtos</option>
+                {activeProducts.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </Select>
             </div>
-          </header>
+            <Button onClick={handleToggleForm} variant="primary" size="sm">
+              Adicionar
+            </Button>
+          </div>
 
-          <main className="flex-1 p-6">
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                  <Select
-                    value={situationFilter}
-                    onChange={(e) =>
-                      setSituationFilter(
-                        e.target.value as "all" | "active" | "inactive"
-                      )
-                    }
-                    size="sm"
-                  >
-                    <option value="all">Todos</option>
-                    <option value="active">Ativo</option>
-                    <option value="inactive">Inativo</option>
-                  </Select>
-                  <Select
-                    value={productFilter}
-                    onChange={(e) => setProductFilter(e.target.value)}
-                    size="sm"
-                  >
-                    <option value="all">Todos os produtos</option>
-                    {activeProducts.map((product) => (
-                      <option key={product.id} value={product.id}>
-                        {product.name}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <Button onClick={handleToggleForm} variant="primary" size="sm">
-                  Adicionar
-                </Button>
-              </div>
+          <ProductionTable
+            productions={filteredProductions}
+            isLoading={isLoading}
+            error={error ? error.message : null}
+            onToggleStatus={toggleProductionStatus}
+            onViewJustification={handleViewJustification}
+            isUpdatingFlag={isUpdatingFlag}
+          />
 
-              <ProductionTable
-                productions={filteredProductions}
-                isLoading={isLoading}
-                error={error ? error.message : null}
-                onToggleStatus={toggleProductionStatus}
-                onViewJustification={handleViewJustification}
-                isUpdatingFlag={isUpdatingFlag}
-              />
-
-              <div className="px-6 py-3 border-t border-gray-200 flex justify-center">
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="p-2 text-gray-400 hover:text-gray-600"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                  </Button>
-                  <span className="text-sm text-gray-700">1</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="p-2 text-gray-400 hover:text-gray-600"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </Button>
-                </div>
-              </div>
+          <div className="px-6 py-3 border-t border-gray-200 flex justify-center">
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-2 text-gray-400 hover:text-gray-600"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </Button>
+              <span className="text-sm text-gray-700">1</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-2 text-gray-400 hover:text-gray-600"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Button>
             </div>
-          </main>
+          </div>
         </div>
 
         <Dialog

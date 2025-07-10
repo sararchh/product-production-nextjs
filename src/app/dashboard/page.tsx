@@ -10,7 +10,7 @@ import { FiPackage, FiClipboard, FiUser } from "react-icons/fi";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, logout } = useAuthContext();
+  const { user } = useAuthContext();
 
   const handleGoToProductions = useCallback(() => {
     router.push("/productions");
@@ -23,54 +23,39 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <PageTemplate showSidebar currentPage="dashboard">
-        <div className="flex-1 flex flex-col">
-          <header className="bg-white shadow-sm border-b border-gray-200">
-            <div className="flex justify-between items-center px-6 py-4">
-              <div className="flex items-center space-x-2">
-                <h1 className="text-xl font-semibold text-gray-900">
-                  Dashboard
-                </h1>
+        <div className="mb-8 bg-white shadow rounded-lg border-l-4 border-blue-500">
+          <div className="px-4 py-5 sm:p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <FiUser className="w-6 h-6 text-blue-600" />
+                </div>
               </div>
-              <Button onClick={logout} variant="secondary" size="sm">
-                Sair
+              <div className="ml-4 flex-1">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  Bem-vindo, {user?.name}!
+                </h3>
+                <div className="mt-2 max-w-xl text-sm text-gray-600">
+                  <p>
+                    Use o dashboard para navegar entre os diferentes módulos
+                    do sistema. Comece pelo cadastro de produtos para
+                    gerenciar seu catálogo.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-5">
+              <Button
+                onClick={handleGoToProducts}
+                variant="primary"
+                className="inline-flex items-center"
+              >
+                <FiPackage className="w-4 h-4 mr-2" />
+                Acessar Cadastro de Produtos
               </Button>
             </div>
-          </header>
-
-          <main className="flex-1 p-6">
-            <div className="mb-8 bg-white shadow rounded-lg border-l-4 border-blue-500">
-              <div className="px-4 py-5 sm:p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <FiUser className="w-6 h-6 text-blue-600" />
-                    </div>
-                  </div>
-                  <div className="ml-4 flex-1">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Bem-vindo, {user?.name}!
-                    </h3>
-                    <div className="mt-2 max-w-xl text-sm text-gray-600">
-                      <p>
-                        Use o dashboard para navegar entre os diferentes módulos
-                        do sistema. Comece pelo cadastro de produtos para
-                        gerenciar seu catálogo.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5">
-                  <Button
-                    onClick={handleGoToProducts}
-                    variant="primary"
-                    className="inline-flex items-center"
-                  >
-                    <FiPackage className="w-4 h-4 mr-2" />
-                    Acessar Cadastro de Produtos
-                  </Button>
-                </div>
-              </div>
-            </div>
+          </div>
+        </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               <DashboardCard
@@ -96,10 +81,8 @@ export default function DashboardPage() {
               />
             </div>
 
-            <div id="production-chart" className="mt-8">
-              <ProductionChart />
-            </div>
-          </main>
+        <div id="production-chart" className="mt-8">
+          <ProductionChart />
         </div>
       </PageTemplate>
     </ProtectedRoute>
