@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { Sidebar, SidebarSection } from '../organisms';
 import { Button } from '../atoms';
 import { useAuthContext } from '@/modules/auth';
+import { ROUTES } from '@/config';
 
 export interface PageTemplateProps {
   children: React.ReactNode;
@@ -48,7 +49,7 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
         {
           label: "Dashboard",
           isActive: currentPage === 'dashboard',
-          onClick: () => router.push("/dashboard"),
+          onClick: () => router.push(ROUTES.DASHBOARD),
         },
       ],
     },
@@ -58,7 +59,7 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
         {
           label: "Apontamento de Produção",
           isActive: currentPage === 'productions',
-          onClick: () => router.push("/productions"),
+          onClick: () => router.push(ROUTES.PRODUCTIONS.LIST),
         },
       ],
     },
@@ -68,7 +69,7 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
         {
           label: "Cadastro de Produto",
           isActive: currentPage === 'products',
-          onClick: () => router.push("/products"),
+          onClick: () => router.push(ROUTES.PRODUCTS.LIST),
         },
       ],
     },

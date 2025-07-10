@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/modules/auth';
 import { Spinner } from '../atoms';
+import { ROUTES } from '@/config';
 
 export interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ export interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  redirectTo = '/login',
+  redirectTo = ROUTES.AUTH.LOGIN,
   showLoader = true,
 }) => {
   const router = useRouter();

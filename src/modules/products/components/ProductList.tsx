@@ -9,6 +9,7 @@ import {
   Product 
 } from "../";
 import { ProductTable } from "./ProductTable";
+import { ROUTES } from "@/config";
 
 export interface ProductListProps {
   className?: string;
@@ -40,11 +41,11 @@ export const ProductList: React.FC<ProductListProps> = ({
   }, [products, situationFilter]);
 
   const handleCreateProduct = useCallback(() => {
-    router.push("/products/new");
+    router.push(ROUTES.PRODUCTS.NEW);
   }, [router]);
 
   const handleEditProduct = useCallback((product: Product) => {
-    router.push(`/products/${product.id}/edit`);
+    router.push(ROUTES.PRODUCTS.EDIT(product.id.toString()));
   }, [router]);
 
   const handleDeleteProduct = useCallback((product: Product) => {
