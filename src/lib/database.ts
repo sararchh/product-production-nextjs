@@ -11,6 +11,17 @@ interface ProductionWithProductName extends Production {
   productName?: string;
 }
 
+interface ProductionChartRow {
+  id: string;
+  productId: string;
+  quantity: number;
+  productionDate: string;
+  createdAt: string;
+  productName: string;
+  minProduction: number;
+  maxProduction: number;
+}
+
 class Database {
   private db: sqlite3.Database;
 
@@ -178,6 +189,32 @@ class Database {
           reject(err);
         } else {
           resolve(rows as ProductionWithProductName[]);
+        }
+      });
+    });
+  }
+
+  getProductionChartData(): Promise<ProductionChartRow[]> {
+    return new Promise((resolve, reject) => {
+      this.db.all(`
+        SELECT 
+          p.id,
+          p.productId,
+          p.quantity,
+          p.productionDate,
+          p.createdAt,
+          pr.name as productName,
+          pr.minProduction,
+          pr.maxProduction
+        FROM productions p
+        JOIN products pr ON p.productId = pr.id
+        WHERE p.active = 1
+        ORDER BY p.productionDate DESC
+      `, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows as ProductionChartRow[]);
         }
       });
     });

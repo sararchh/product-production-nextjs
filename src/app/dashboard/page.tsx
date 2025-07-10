@@ -3,9 +3,10 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/modules/auth";
+import { ProductionChart } from "@/modules/productions";
 import { ProtectedRoute, PageTemplate } from "@/shared/components";
 import { DashboardCard, Button } from "@/shared/components";
-import { FiPackage, FiClipboard, FiUser } from "react-icons/fi";
+import { FiPackage, FiClipboard, FiUser, FiBarChart } from "react-icons/fi";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -63,6 +64,26 @@ export default function DashboardPage() {
                 actionTextColor="text-green-700 hover:text-green-600"
                 onClick={handleGoToProductions}
               />
+
+              <DashboardCard
+                title="Relatórios"
+                subtitle="Dashboard de Produção"
+                icon={<FiBarChart className="w-6 h-6 text-white" />}
+                borderColor="border-purple-500"
+                iconBgColor="bg-purple-600"
+                actionText="Ver gráficos →"
+                actionTextColor="text-purple-700 hover:text-purple-600"
+                onClick={() => {
+                  document.getElementById('production-chart')?.scrollIntoView({ 
+                    behavior: 'smooth' 
+                  });
+                }}
+              />
+            </div>
+
+            {/* Gráfico de Produção */}
+            <div id="production-chart" className="mt-8">
+              <ProductionChart />
             </div>
 
             <div className="mt-8 bg-white shadow rounded-lg border-l-4 border-blue-500">

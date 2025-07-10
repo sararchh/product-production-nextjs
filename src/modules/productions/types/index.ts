@@ -30,3 +30,17 @@ export interface ProductionResponse {
   success: boolean;
   data: Production;
 }
+
+export interface ProductionChartDataPoint {
+  date: string;
+  quantity: number;
+  productName: string;
+  minProduction: number;
+  maxProduction: number;
+  status: 'low' | 'normal' | 'high';
+}
+
+export interface ProductionChartData {
+  success: boolean;
+  data: ProductionChartDataPoint[];
+}
