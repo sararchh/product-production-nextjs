@@ -24,7 +24,7 @@ export default function DashboardPage() {
     <ProtectedRoute>
       <PageTemplate showSidebar currentPage="dashboard">
         <div className="flex-1 flex flex-col">
-          <header className="bg-white shadow-sm border-b">
+          <header className="bg-white shadow-sm border-b border-gray-200">
             <div className="flex justify-between items-center px-6 py-4">
               <div className="flex items-center space-x-2">
                 <h1 className="text-xl font-semibold text-gray-900">

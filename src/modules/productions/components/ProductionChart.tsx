@@ -144,7 +144,7 @@ export const ProductionChart = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border">
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
           Dashboard de Produção

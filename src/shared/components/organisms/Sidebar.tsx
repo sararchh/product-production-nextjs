@@ -23,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div className={`w-64 bg-white shadow-lg ${className}`}>
-      <div className="p-4 border-b">
+      <div className="p-6">
         <Text variant="h5" weight="semibold">Menu principal</Text>
       </div>
       <nav className="mt-4">
