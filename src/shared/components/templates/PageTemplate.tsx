@@ -101,7 +101,9 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
             </div>
           </header>
           <main className="flex-1 p-6 overflow-y-auto">
-            {children}
+            <div className="max-w-[1500px] mx-auto">
+              {children}
+            </div>
           </main>
         </div>
       </div>
