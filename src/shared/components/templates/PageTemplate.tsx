@@ -90,7 +90,6 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
           <header className="bg-white shadow-sm border-b border-gray-200">
             <div className="flex justify-between items-center px-6 py-4">
               <div className="flex items-center space-x-2">
-                {/* Espaço reservado para o botão hamburger em mobile */}
                 <div className="md:hidden w-10"></div>
                 <h1 className="text-xl font-semibold text-gray-900">
                   {getPageTitle()}

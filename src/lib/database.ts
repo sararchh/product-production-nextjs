@@ -238,8 +238,6 @@ class Database {
     });
   }
 
-  // ...existing code...
-
   close(): Promise<void> {
     return new Promise((resolve) => {
       this.db.close((err) => {

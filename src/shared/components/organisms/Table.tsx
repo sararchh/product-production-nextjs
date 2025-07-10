@@ -87,7 +87,7 @@ export const Table = <T = Record<string, unknown>,>({
   `.trim();
 
   const containerClasses = `
-    overflow-hidden
+    overflow-x-auto overflow-y-hidden table-scroll
     ${stickyHeader ? "max-h-96 overflow-y-auto" : ""}
     ${className}
   `.trim();
@@ -98,7 +98,7 @@ export const Table = <T = Record<string, unknown>,>({
   `.trim();
 
   const cellClasses = `
-    px-6 py-4 whitespace-nowrap text-sm
+    px-6 py-4 text-sm min-w-0
     ${compact ? "px-3 py-2" : ""}
   `.trim();
 
