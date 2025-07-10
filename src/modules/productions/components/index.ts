@@ -1,4 +1,3 @@
-export * from './ProductionForm';
-export * from './ProductionList';
-export * from './ProductionTable';
-export * from './ProductionChart';
+export * from "./ProductionForm";
+export * from "./ProductionTable";
+export * from "./ProductionChart";

@@ -30,7 +30,6 @@ export const ProductionForm: React.FC<ProductionFormProps> = ({
   production,
   onSubmit,
   onSubmitWithJustification,
-  onCancel,
   isLoading = false,
   isUpdating = false,
 }) => {
