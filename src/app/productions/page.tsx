@@ -3,10 +3,10 @@
 import { useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   useProductions,
   useUpdateProductionFlag,
+  ProductionTable,
 } from "@/modules/productions";
 import { useProducts } from "@/modules/products";
 import { useAuthContext } from "@/modules/auth";
@@ -22,7 +22,7 @@ export default function ProductionsPage() {
   const [currentJustification, setCurrentJustification] = useState<string>("");
 
   const { data: productions, isLoading, error } = useProductions();
-  const { data: products, isLoading: isLoadingProducts } = useProducts();
+  const { data: products } = useProducts();
   const { updateProductionFlag, isLoading: isUpdatingFlag } = useUpdateProductionFlag();
 
   const activeProducts = useMemo(() => {
@@ -46,23 +46,6 @@ export default function ProductionsPage() {
 
     return filtered;
   }, [productions, situationFilter, productFilter]);
-
-  const getProductName = useCallback((productId: string) => {
-    const product = products?.find(p => p.id === productId);
-    return product?.name || "Produto não encontrado";
-  }, [products]);
-
-  const getProductRange = useCallback((productId: string) => {
-    const product = products?.find(p => p.id === productId);
-    if (!product) return null;
-    return { min: product.minProduction, max: product.maxProduction };
-  }, [products]);
-
-  const isQuantityOutOfRange = useCallback((productId: string, quantity: number) => {
-    const range = getProductRange(productId);
-    if (!range) return false;
-    return quantity < range.min || quantity > range.max;
-  }, [getProductRange]);
 
   const handleGoToDashboard = useCallback(() => {
     router.push("/dashboard");
@@ -158,116 +141,14 @@ export default function ProductionsPage() {
                 </Button>
               </div>
 
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                        ID
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                        AÇÕES
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                        SITUAÇÃO
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                        PRODUTO
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                        PRODUÇÃO
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {isLoading || isLoadingProducts ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center">
-                          <div className="flex justify-center">
-                            <AiOutlineLoading3Quarters className="animate-spin h-6 w-6 text-blue-600" />
-                          </div>
-                        </td>
-                      </tr>
-                    ) : error ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-red-600">
-                          Erro ao carregar apontamentos
-                        </td>
-                      </tr>
-                    ) : filteredProductions.length === 0 ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-gray-700">
-                          Nenhum apontamento encontrado
-                        </td>
-                      </tr>
-                    ) : (
-                      filteredProductions.map((production, index) => {
-                        const outOfRange = isQuantityOutOfRange(production.productId, production.quantity);
-                        return (
-                          <tr 
-                            key={production.id} 
-                            className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} ${
-                              production.active ? "border-l-4 border-blue-500" : ""
-                            }`}
-                          >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {String(index + 1).padStart(2, '0')}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm">
-                              <div className="flex space-x-2">
-                                <Button
-                                  onClick={() => toggleProductionStatus(production.id, production.active)}
-                                  disabled={isUpdatingFlag}
-                                  variant="ghost"
-                                  size="sm"
-                                  className="text-indigo-600 hover:text-indigo-900 font-medium"
-                                  title="Alterar Situação"
-                                >
-                                  Alterar Situação
-                                </Button>
-                                {production.justification && (
-                                  <Button
-                                    onClick={() => handleViewJustification(production.justification!)}
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-green-600 hover:text-green-900 font-medium"
-                                    title="Ver Justificativa"
-                                  >
-                                    Ver Justificativa
-                                  </Button>
-                                )}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                production.active
-                                  ? "bg-blue-100 text-blue-800"
-                                  : "bg-gray-100 text-gray-800"
-                              }`}>
-                                {production.active ? "ATIVO" : "INATIVO"}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {getProductName(production.productId)}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm">
-                              <span 
-                                className={`${
-                                  outOfRange 
-                                    ? "border-2 border-red-500 bg-red-50 text-red-800 px-2 py-1 rounded font-semibold" 
-                                    : "text-gray-900"
-                                }`}
-                              >
-                                {production.quantity} m²
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
-              </div>
+              <ProductionTable
+                productions={filteredProductions}
+                isLoading={isLoading}
+                error={error ? error.message : null}
+                onToggleStatus={toggleProductionStatus}
+                onViewJustification={handleViewJustification}
+                isUpdatingFlag={isUpdatingFlag}
+              />
 
               <div className="px-6 py-3 border-t border-gray-200 flex justify-center">
                 <div className="flex items-center space-x-2">
