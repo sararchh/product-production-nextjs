@@ -85,7 +85,6 @@ export default function LoginPage() {
             <Button
               type="submit"
               isLoading={isLoading}
-              loadingText="Entrando..."
               fullWidth
             >
               Entrar

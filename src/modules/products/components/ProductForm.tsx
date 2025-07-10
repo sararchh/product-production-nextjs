@@ -82,7 +82,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           <Button
             type="submit"
             isLoading={isLoading || isUpdating}
-            loadingText="Salvando..."
             className="w-full max-w-md"
             size="lg"
           >

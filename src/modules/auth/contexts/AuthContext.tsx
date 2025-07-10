@@ -87,7 +87,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = useCallback(async (credentials: LoginRequest) => {
     try {
-      const response = await loginFn(credentials);
+      const trimmedCredentials = {
+        ...credentials,
+        username: credentials.username.trim()
+      };
+      const response = await loginFn(trimmedCredentials);
       
       if (response.success) {
         setUser(response.user);

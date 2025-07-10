@@ -220,7 +220,6 @@ export const ProductionForm: React.FC<ProductionFormProps> = ({
           <Button
             type="submit"
             isLoading={isLoading || isUpdating}
-            loadingText={isUpdating ? "Atualizando..." : "Salvando..."}
             className="w-full max-w-md"
             size="lg"
           >

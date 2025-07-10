@@ -16,7 +16,7 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
 export const Button: React.FC<ButtonProps> = ({
   children,
   isLoading = false,
-  loadingText = 'Carregando...',
+  loadingText = '',
   disabled = false,
   onClick,
   type = 'button',
